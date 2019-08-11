@@ -16,7 +16,7 @@
 ```npm -v```
 
 ## Clone this code onto the pi
-```git clone https://github.com/macakcat/pi_server```
+```git clone https://github.com/macakcat/pi_server.git```
 
 ## Install node packages
 ```npm install```
