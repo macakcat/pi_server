@@ -15,12 +15,25 @@ wsServer = new WebSocketServer({
   httpServer: server
 });
 
+const connections = [];
+
+function send(message){
+  connections.forEach(function(connection){
+    if(connection.connected){
+      connection.sendUTF(message);
+    }
+  })
+}
+
+
 // WebSocket server
 wsServer.on('request', function(request) {
   var connection = request.accept(null, request.origin);
   connection.on('message', function(message) {
     if (message.utf8Data) {
-      connection.send(message.utf8Data);
+      console.log(message.utf8Data);
+      send(message.utf8Data);
     }
   });
+  connections.push(connection);
 });

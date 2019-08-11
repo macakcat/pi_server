@@ -1,22 +1,45 @@
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <style>
     body{
       text-align: center;
+      background: #333;
+      color: #fff;
+      line-height: 1.5em;
+      font-family: sans-serif;
+    }
+    div{
+      display: flex;
+      align-items: center;
+      width: 100%;
+      position: absolute;
+      height:100%;
+      align-content: center;
+    }
+    button{
+      font: inherit;
+      color: inherit;
+      background: #000;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
 
-<button data-command="light">Light</button>
-<button data-command="butter">Butter</button>
-<button data-command="snake">Snake</button>
-
+<div>
+  <button data-command="toggleLed">Toggle LED</button>
+  <button data-command="toggleButter">Toggle Butter</button>
+</div>
 <script>
+  console.log(document.location.hostname);
   // Connect to the socket server
-  var socket = new WebSocket("ws://localhost:1337");
+  var socket = new WebSocket("ws://"+document.location.hostname+":"+document.location.port);
+
   socket.onopen = function (event) {
-    socket.send("Here's some text that the server is urgently awaiting!");
+    socket.send("REMOTE connected");
   };
 
   socket.onmessage = function(message){
