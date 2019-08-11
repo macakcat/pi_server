@@ -20,7 +20,7 @@
   };
 
   socket.onmessage = function(message){
-    if(message.data.indexOf('esp') === 0){
+    if(message.data.indexOf('ESP') === 0){
       // Message is coming from the ESP
     }
   }
@@ -32,7 +32,7 @@
   for (let button of buttons) {
     // Apply click listeners to all buttons
     button.onclick = function(click) {
-      socket.send('remote '+ click.target.dataset.command)
+      socket.send('REMOTE '+ click.target.dataset.command)
     }
   }
 </script>
