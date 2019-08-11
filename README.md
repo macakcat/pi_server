@@ -18,6 +18,9 @@
 ## Clone this code onto the pi
 ```git clone https://github.com/macakcat/pi_server```
 
+## Install node packages
+```npm install```
+
 ## Run the server
 ```npm start```
 
