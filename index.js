@@ -1,16 +1,26 @@
-var app = require('express')();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var WebSocketServer = require('websocket').server;
+var http = require('http');
+var fs = require('fs');
+var path = require('path');
 
-server.listen(3000);
-
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
+var server = http.createServer(function(req, res) {
+  res.writeHead(200, {"Content-Type": "text/html"});
+  fs.createReadStream(path.resolve(__dirname, 'index.html')).pipe(res);
 });
 
-io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('command', function (command) {
-    console.log(command);
+server.listen(1337, function() { });
+
+// create the server
+wsServer = new WebSocketServer({
+  httpServer: server
+});
+
+// WebSocket server
+wsServer.on('request', function(request) {
+  var connection = request.accept(null, request.origin);
+  connection.on('message', function(message) {
+    if (message.utf8Data) {
+      connection.send(message.utf8Data);
+    }
   });
 });

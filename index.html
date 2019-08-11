@@ -1,6 +1,10 @@
 <html>
 <head>
-  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    body{
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
@@ -9,15 +13,26 @@
 <button data-command="snake">Snake</button>
 
 <script>
-  var socket = io.connect('http://localhost:3000');
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
-  });
+  // Connect to the socket server
+  var socket = new WebSocket("ws://localhost:1337");
+  socket.onopen = function (event) {
+    socket.send("Here's some text that the server is urgently awaiting!");
+  };
+
+  socket.onmessage = function(message){
+    if(message.data.indexOf('esp') === 0){
+      // Message is coming from the ESP
+    }
+  }
+
+  // Create an array of all button elements
   const buttons = document.getElementsByTagName('button');
+
+  // Loop over array of buttons
   for (let button of buttons) {
+    // Apply click listeners to all buttons
     button.onclick = function(click) {
-      socket.emit('command', click.target.dataset.command)
+      socket.send('remote '+ click.target.dataset.command)
     }
   }
 </script>
